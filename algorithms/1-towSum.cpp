@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 class Solution {
@@ -33,6 +34,27 @@ class Solution {
             }
             return retIv;
         }
+
+        /*
+         *Approach #2 (Two-pass Hash Table)
+         */
+        vector<int> towSum2(vector<int>& nums, int target) {
+            map<int, int> im;
+            for( int i = 0; i < nums.size(); ++i) {
+                im[nums[i]] = i;
+            }
+
+            vector<int> retIv;
+            for(int i=0; i< nums.size(); ++i) {
+                int complement = target - nums[i];
+                auto it = im.find(complement);
+                if( it != im.end()) {
+                    retIv = { i, im[complement] };
+                    return retIv;
+                }
+            }
+            return retIv;
+        }
 };
 
 int main( int argc, char **argv )
@@ -40,7 +62,7 @@ int main( int argc, char **argv )
     Solution s;
     vector<int> nums{ 2,7,11,15 };
     int target = 17;
-    vector<int> retNums = s.towSum(nums, target);
+    vector<int> retNums = s.towSum2(nums, target);
     if(retNums.size() > 1 ) {
         cout << "Because nums[" << retNums[0] << "] + nums[" << retNums[1] << "] = " << 
             nums[retNums[0]] << " + " << nums[retNums[1]] << " = " << target << endl;
