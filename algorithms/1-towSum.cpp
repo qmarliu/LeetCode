@@ -22,7 +22,7 @@ class Solution {
         /*
          *Approach #1 (Brute Force) 
          */
-        vector<int> towSum(vector<int>& nums, int target) {
+        vector<int> twoSum(vector<int>& nums, int target) {
             vector<int> retIv;
             for( vector<int>::size_type i = 0; i < nums.size() - 1; ++i) {
                 for( auto j = i + 1; j < nums.size(); ++j) {
@@ -38,7 +38,7 @@ class Solution {
         /*
          *Approach #2 (Two-pass Hash Table)
          */
-        vector<int> towSum2(vector<int>& nums, int target) {
+        vector<int> twoSum2(vector<int>& nums, int target) {
             map<int, int> im;
             for( int i = 0; i < nums.size(); ++i) {
                 im[nums[i]] = i;
@@ -55,6 +55,23 @@ class Solution {
             }
             return retIv;
         }
+
+        /*
+         *Approach #3(One-pass Hash Table)
+         */
+        vector<int> twoSum3(vector<int> &nums, int target) {
+            vector<int> retIv;
+            map<int, int> im;
+            for(int i=0; i<nums.size(); ++i) {
+                int complement = target - nums[i];
+                if( im.find(complement) != im.end()) {
+                    retIv = { i, im[complement] };
+                    return retIv;
+                }
+                im[nums[i]] = i;
+            }
+            return retIv;
+        }
 };
 
 int main( int argc, char **argv )
@@ -62,7 +79,7 @@ int main( int argc, char **argv )
     Solution s;
     vector<int> nums{ 2,7,11,15 };
     int target = 17;
-    vector<int> retNums = s.towSum2(nums, target);
+    vector<int> retNums = s.twoSum3(nums, target);
     if(retNums.size() > 1 ) {
         cout << "Because nums[" << retNums[0] << "] + nums[" << retNums[1] << "] = " << 
             nums[retNums[0]] << " + " << nums[retNums[1]] << " = " << target << endl;
