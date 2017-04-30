@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <algorithm>
 using namespace std;
 
 class Solution {
@@ -72,6 +73,29 @@ class Solution {
             }
             return retIv;
         }
+        /*
+         *Approach #4(LeetCode上实现的最好方案)
+         */
+        vector<int> twoSum4(vector<int> &nums, int target) {
+            vector<int>::iterator it, start = nums.begin(), it_rem;
+            map<int, int> m;
+            vector<int> result;
+
+            for( it = nums.begin(); it!=nums.end(); ++it) {
+                int num=*it;
+                int rem = target - num;
+
+                if(m[rem] == 1) {
+                    it_rem = find(nums.begin(), nums.end(), rem);
+                    result.push_back(it_rem - start);
+                    result.push_back(it - start);
+                    return result;
+                } else {
+                    m[num] = 1;
+                }
+            }
+            return result;
+        }
 };
 
 int main( int argc, char **argv )
@@ -79,7 +103,7 @@ int main( int argc, char **argv )
     Solution s;
     vector<int> nums{ 2,7,11,15 };
     int target = 17;
-    vector<int> retNums = s.twoSum3(nums, target);
+    vector<int> retNums = s.twoSum4(nums, target);
     if(retNums.size() > 1 ) {
         cout << "Because nums[" << retNums[0] << "] + nums[" << retNums[1] << "] = " << 
             nums[retNums[0]] << " + " << nums[retNums[1]] << " = " << target << endl;
