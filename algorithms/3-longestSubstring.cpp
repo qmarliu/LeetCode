@@ -13,6 +13,8 @@
  */
 
 #include <iostream>
+#include <set>
+#include <vector>
 using namespace std;
 
 class Solution {
@@ -54,12 +56,90 @@ class Solution {
             cout << maxS << endl;
             return maxS.length();
         }
+
+        /*
+         *Approach #2 Brute Force [Time Limit Exceeded]
+         */
+        bool allUnique(string s, int start, int end) {
+            set<char> cs;
+            for( int i = start; i<end; ++i) {
+                char ch = s.at(i);
+                if(cs.end() != cs.find(ch))
+                    return false;
+                cs.insert(cs.end(), ch);
+            }
+            return true;
+        }
+
+        int lengthOfLongestSubstring2(string s) {
+            int n = s.length();
+            int ans = 0;
+            for( int i =0; i<n ; ++i ) {
+                for( int j=i+1; i<=n; ++j) {
+                    if( allUnique(s, i, j) ) {
+                        ans = (ans > (j-i)) ? ans : j-i; 
+                    }
+                }
+            }
+            return ans;
+        }
+
+        /*
+         *Approach #3 Sliding Window [Accepted]
+         */
+        int lengthOfLongestSubstring3(string s) {
+            int n = s.length();
+            set<char> cs;
+            int ans=0, i=0, j=0;
+            while(i<n && j<n) {
+                if(cs.find(s.at(j)) == cs.end()) {
+                    cs.insert(cs.end(), s.at(j++));
+                    ans = (ans > (j-i)) ? ans : j-i; 
+                }
+                else {
+                    cs.erase(s.at(i++));
+                }
+            }
+            return ans;
+        }
+
+        /*
+         *Approach #4 Sliding Window Optimized
+         */
+        int lengthOfLongestSubstring4(string s) {
+            int n = s.length(), ans = 0;
+            int index[128] = { 0 }; // current index of character
+            // try to extend the range [i, j]
+            for (int j = 0, i = 0; j < n; j++) {
+                i = (index[s.at(j)] > i) ? index[s.at(j)] : i;
+                ans = (ans > (j-i+1)) ? ans : j-i+1; 
+                index[s.at(j)] = j + 1;
+            }
+            return ans;
+        }
+
+        /*
+         *看到的最好的答案
+         */
+        int lengthOfLongestSubstring5(string s) {
+            vector<int>v(256,-1);
+            int len=s.size(),ans=0,start=-1;
+
+            for(int i=0;i<len;i++){
+                if(v[s[i]]>start)//Slding window
+                    start=v[s[i]];
+                v[s[i]]=i; 
+                ans=max(ans,i-start);
+            }
+            return ans;
+        }
+
 };
 
 int main( int argc, char **argv )
 {
-    string str{ "loddktdji" };
+    string str{ "abcabcbb" };
     Solution s;
-    cout << s.lengthOfLongestSubstring(str) << endl;
+    cout << s.lengthOfLongestSubstring3(str) << endl;
     return 0;
 }
