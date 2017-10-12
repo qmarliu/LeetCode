@@ -32,8 +32,8 @@ public:
             int x = ((l1==NULL) ? 0 : l1->val);
             int y = ((l2==NULL) ? 0 : l2->val);
             int sum = x + y + carry;
-            carry = sum /10;
-            curr->next = new ListNode( sum%10 );
+            carry = sum / 10;
+            curr->next = new ListNode(sum % 10);
             curr = curr->next;
             if(l1) l1 = l1->next;
             if(l2) l2 = l2->next;

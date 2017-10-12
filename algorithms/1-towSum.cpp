@@ -82,7 +82,7 @@ class Solution {
             vector<int> result;
 
             for( it = nums.begin(); it!=nums.end(); ++it) {
-                int num=*it;
+                int num = *it;
                 int rem = target - num;
 
                 if(m[rem] == 1) {
@@ -105,7 +105,7 @@ int main( int argc, char **argv )
     int target = 17;
     vector<int> retNums = s.twoSum4(nums, target);
     if(retNums.size() > 1 ) {
-        cout << "Because nums[" << retNums[0] << "] + nums[" << retNums[1] << "] = " << 
+        cout << "nums[" << retNums[0] << "] + nums[" << retNums[1] << "] = " << 
             nums[retNums[0]] << " + " << nums[retNums[1]] << " = " << target << endl;
 
     }
