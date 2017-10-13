@@ -41,7 +41,9 @@ public:
         if(carry) {
             curr->next = new ListNode(1);
         }
-        return l3->next;
+        curr = l3->next;
+        delete(l3);
+        return curr;
     }
 
     /*
@@ -60,7 +62,7 @@ public:
 
             tmp += _l1->val + _l2->val;
             _l2->val = tmp % 10;
-            tmp /=10;
+            tmp /= 10;
 
             last = _l2;
             _l1 = _l1->next;
@@ -90,7 +92,7 @@ public:
 int main( int argc, char **argv )
 {
     ListNode *l1 = new ListNode(1);
-    ListNode *l2 = new ListNode(0);
+    ListNode *l2 = new ListNode(2);
     l1->next = new ListNode(8);
     /*
      *l1->next->next = new ListNode(3);
@@ -99,7 +101,7 @@ int main( int argc, char **argv )
      */
 
     Solution s;
-    ListNode *result = s.addTwoNumbers(l1, l2);
+    ListNode *result = s.addTwoNumbers2(l1, l2);
     while(result) {
         cout << result->val << endl;
         result = result->next;

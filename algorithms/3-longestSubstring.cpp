@@ -48,7 +48,7 @@ class Solution {
                     maxS = temp;
                 }
                 temp = "";
-                if((s.length() > 1) && (s.length()-1 > maxS.length()))
+                if ((s.length() > 1) && (s.length() - 1 > maxS.length()))
                     s = s.substr(1);
                 else
                     break;
@@ -60,24 +60,30 @@ class Solution {
         /*
          *Approach #2 Brute Force [Time Limit Exceeded]
          */
-        bool allUnique(string s, int start, int end) {
+        bool allUnique(string s, int start, int end)
+        {
             set<char> cs;
-            for( int i = start; i<end; ++i) {
+            for (int i = start; i < end; ++i)
+            {
                 char ch = s.at(i);
-                if(cs.end() != cs.find(ch))
+                if (cs.end() != cs.find(ch))
                     return false;
                 cs.insert(cs.end(), ch);
             }
             return true;
         }
 
-        int lengthOfLongestSubstring2(string s) {
+        int lengthOfLongestSubstring2(string s)
+        {
             int n = s.length();
             int ans = 0;
-            for( int i =0; i<n ; ++i ) {
-                for( int j=i+1; i<=n; ++j) {
-                    if( allUnique(s, i, j) ) {
-                        ans = (ans > (j-i)) ? ans : j-i; 
+            for (int i = 0; i < n; ++i)
+            {
+                for (int j = i + 1; j <= n; ++j)
+                {
+                    if (allUnique(s, i, j))
+                    {
+                        ans = (ans > (j - i)) ? ans : j - i;
                     }
                 }
             }
@@ -87,16 +93,20 @@ class Solution {
         /*
          *Approach #3 Sliding Window [Accepted]
          */
-        int lengthOfLongestSubstring3(string s) {
+        int lengthOfLongestSubstring3(string s)
+        {
             int n = s.length();
             set<char> cs;
-            int ans=0, i=0, j=0;
-            while(i<n && j<n) {
-                if(cs.find(s.at(j)) == cs.end()) {
+            int ans = 0, i = 0, j = 0;
+            while (i < n && j < n)
+            {
+                if (cs.find(s.at(j)) == cs.end())
+                {
                     cs.insert(cs.end(), s.at(j++));
-                    ans = (ans > (j-i)) ? ans : j-i; 
+                    ans = (ans > (j - i)) ? ans : j - i;
                 }
-                else {
+                else
+                {
                     cs.erase(s.at(i++));
                 }
             }
@@ -106,14 +116,16 @@ class Solution {
         /*
          *Approach #4 Sliding Window Optimized
          */
-        int lengthOfLongestSubstring4(string s) {
+        int lengthOfLongestSubstring4(string s)
+        {
             int n = s.length(), ans = 0;
-            int index[128] = { 0 }; // current index of character
+            int index[256] = {0}; // current index of character
             // try to extend the range [i, j]
-            for (int j = 0, i = 0; j < n; j++) {
-                i = (index[s.at(j)] > i) ? index[s.at(j)] : i;
-                ans = (ans > (j-i+1)) ? ans : j-i+1; 
-                index[s.at(j)] = j + 1;
+            for (int j = 0, i = 0; j < n; j++)
+            {
+                i = (index[static_cast<int>(s.at(j))] > i) ? index[static_cast<int>(s.at(j))] : i;
+                ans = (ans > (j - i + 1)) ? ans : j - i + 1;
+                index[static_cast<int>(s.at(j))] = j + 1;
             }
             return ans;
         }
@@ -121,19 +133,20 @@ class Solution {
         /*
          *看到的最好的答案
          */
-        int lengthOfLongestSubstring5(string s) {
-            vector<int>v(256,-1);
-            int len=s.size(),ans=0,start=-1;
+        int lengthOfLongestSubstring5(string s)
+        {
+            vector<int> v(256, -1);
+            int len = s.size(), ans = 0, start = -1;
 
-            for(int i=0;i<len;i++){
-                if(v[s[i]]>start)//Slding window
-                    start=v[s[i]];
-                v[s[i]]=i; 
-                ans=max(ans,i-start);
+            for (int i = 0; i < len; i++)
+            {
+                if (v[s[i]] > start) //Slding window
+                    start = v[s[i]];
+                v[s[i]] = i;
+                ans = max(ans, i - start);
             }
             return ans;
         }
-
 };
 
 int main( int argc, char **argv )
