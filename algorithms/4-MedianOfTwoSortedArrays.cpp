@@ -25,7 +25,7 @@
 class Solution {
 public:
     /*
-    *自己实现的
+    *自己实现的66ms
     */
     double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2)
     {
@@ -114,6 +114,73 @@ public:
         }
         return 0.0;
     }
+
+    //LeetCode上最好的实现 26ms
+    double findMedianSortedArrays3(vector<int> &nums1, vector<int> &nums2)
+    {
+        int size1 = nums1.size();
+        int size2 = nums2.size();
+        int s = size1 + size2;
+        int t = (s - 1) / 2;
+        if (size1 == 0 && size2 == 0)
+        {
+            return 0;
+        }
+        if (size1 == 0)
+        {
+            if (size2 % 2 == 0)
+            {
+                return (nums2.at(t) + nums2.at(t + 1)) / 2.0;
+            }
+            else
+                return nums2.at(t);
+        }
+        if (size2 == 0)
+        {
+            if (size1 % 2 == 0)
+            {
+                return (nums1.at(t) + nums1.at(t + 1)) / 2.0;
+            }
+            else
+                return nums1.at(t);
+        }
+
+        for (int i = 0; i < t; i++)
+        {
+            if (nums1.back() > nums2.back())
+            {
+                nums1.pop_back();
+            }
+            else
+            {
+                nums2.pop_back();
+            }
+        }
+        if (s % 2 == 1)
+        {
+            double r = nums1.back() > nums2.back() ? nums1.back() : nums2.back();
+            return r; //cout<<"The median is "<< r << endl;
+        }
+        else
+        {
+            if (nums1.back() > nums2.back())
+            {
+                double r1 = nums1.back();
+                nums1.pop_back();
+                double r2 = nums1.back() > nums2.back() ? nums1.back() : nums2.back();
+                return (r1 + r2) / 2.0;
+            }
+            else
+            {
+                double r1 = nums2.back();
+                nums2.pop_back();
+                double r2 = nums1.back() > nums2.back() ? nums1.back() : nums2.back();
+                return (r1 + r2) / 2.0;
+            }
+        }
+        //cout<<"The median is ("<<nums1.back()<<" + "<<nums2.back()<<")/2 = "<<(nums1.back()+nums2.back())/2.0<<endl;
+        return 0;
+    }
 };
 
 int main( int argc, char **argv )
@@ -121,6 +188,6 @@ int main( int argc, char **argv )
     vector<int> nums1 = {1, 2};
     vector<int> nums2 = {1, 4};
     Solution s;
-    cout << s.findMedianSortedArrays2(nums1, nums2) << endl;
+    cout << s.findMedianSortedArrays3(nums1, nums2) << endl;
     return 0;
 }
