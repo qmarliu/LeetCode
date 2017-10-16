@@ -52,7 +52,7 @@ public:
 		int t_result = 0;
 		while (!q.empty()) {
 			int temp = t_result * 10 + q.front();
-			if (t_result == (temp - q.front()) / 10) {//判断有没有溢出
+			if (t_result == (temp - q.front()) / 10) {//判断有没有溢出？不能这么判断有没有溢出
 				t_result = temp;
 			}
 			else {
@@ -67,7 +67,8 @@ public:
 int main( int argc, char **argv )
 {
     Solution s;
-    cout << s.reverse(-1240567899) << endl;
+    cout << s.reverse2(2147483647) << endl;
+    // cout << s.reverse2(8463847412) << endl;
     getchar();
     return 0;
 }
