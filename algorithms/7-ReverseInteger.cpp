@@ -52,7 +52,7 @@ public:
 		int t_result = 0;
 		while (!q.empty()) {
 			int temp = t_result * 10 + q.front();
-			if (t_result == (temp - q.front()) / 10) {//判断有没有溢出？不能这么判断有没有溢出
+			if (t_result == (temp - q.front()) / 10) {//判断有没有溢出
 				t_result = temp;
 			}
 			else {
