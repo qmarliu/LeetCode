@@ -36,22 +36,20 @@ public:
     {
         if (p.empty())
             return s.empty();
-        if (p.size() == 1)
-            return (s.size() == 1 && (s[0] == p[0] || p[0] == '.'));
 
         int i = 0, j = 0;
-        vector<int> pointJ;
-        vector<int> pointI;
+        vector<int> pointJ; //存储有*的前一个位置的p的下标j
+        vector<int> pointI; //存储对应有*的位置的s的下标i
         while (i < s.size() && j < p.size())
-        {
+        { //循环匹配i和j
             if (j + 1 >= p.size())
-            {
-                if (i + 1 >= s.size())
+            {//j为最后的字符
+                if (i + 1 >= s.size()) //不也为最后的字符
                     return s[i] == p[j] || p[j] == '.';
                 else
                 {
                     if (pointJ.size() != 0)
-                    {
+                    { //之前有*的字符，可回到*的位置进行更多的尝试
                         i = ++pointI.back();
                         j = pointJ.back() + 2;
                         if (p[j - 2] != '.')
@@ -68,11 +66,11 @@ public:
                 }
             }
             if (p[j + 1] == '*')
-            {
+            {//若j的下个字符是*。
                 if (s[i] == p[j] || p[j] == '.')
                 {
                     if (j + 2 >= p.size())
-                    {
+                    {//*是最后的字符，则尽可能多的匹配
                         if (p[j] == '.')
                             return true;
                         else
@@ -83,14 +81,14 @@ public:
                     }
                     pointJ.push_back(j);
                     pointI.push_back(i);
-                    ++j, ++j;
+                    ++j, ++j; //先尝试匹配0个的情况。,pointI,pointJ中记录了当前的位置，方便后续多次匹配
                     continue;
                 }
-                ++j, ++j;
+                ++j, ++j; //只能匹配0个，不用记录。
                 if (j >= p.size())
                 {
                     if (pointJ.size() != 0)
-                    {
+                    {//之前有*的字符，可回到*的位置进行更多的尝试
                         i = ++pointI.back();
                         j = pointJ.back() + 2;
                         if (p[j - 2] != '.')
@@ -105,14 +103,14 @@ public:
                 }
             }
             else
-            {
+            {//下个字符不是*
                 if (s[i] == p[j] || p[j] == '.')
                 {
                     ++i; ++j;
                     continue;
                 }
                 else if (pointJ.size() != 0)
-                {
+                {//之前有*的字符，可回到*的位置进行更多的尝试
                     i = ++pointI.back();
                     j = pointJ.back() + 2;
                     if (p[j - 2] != '.')
@@ -128,13 +126,14 @@ public:
                 return false;
             }
         }
+
         if (i >= s.size())
-        {
+        { //s只有匹配完，才有可能匹配成功
             if (j >= p.size())
                 return true;
             if (j + 1 == p.size())
             {
-                return p[j+1] == '*';
+                return p[j + 1] == '*';
             }
             if (p[j + 1] == '*')
             {

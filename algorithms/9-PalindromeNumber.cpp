@@ -61,6 +61,12 @@ int main( int argc, char **argv )
     cout << (s.isPalindrome(-2147447412) ? " is Palindrome." : " not Palindrome.") << endl;
     cout << (s.isPalindrome(123) ? " is Palindrome." : " not Palindrome.") << endl;
     cout << (s.isPalindrome(121) ? " is Palindrome." : " not Palindrome.") << endl;
+    vector<int> a = {1, 2, 3, 4};
+    vector<int> b = a;
+    for(auto i : b)
+    {
+        cout << i << endl;
+    }
     getchar();
     return 0;
 }
